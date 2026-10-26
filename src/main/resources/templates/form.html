@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Nota - Notas MD</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .editor-textarea { min-height: 400px; font-family: 'Courier New', Courier, monospace; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-primary mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-journal-text"></i> Notas MD
+            </a>
+            <a href="/" class="btn btn-outline-light">
+                <i class="bi bi-arrow-left"></i> Volver
+            </a>
+        </div>
+    </nav>
+
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h2 class="h4 mb-0" th:text="${editando} ? 'Editar Nota' : 'Nueva Nota'">Nueva Nota</h2>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${errorG}" class="alert alert-danger" th:text="${errorG}"></div>
+
+                        <form th:action="@{/nota/guardar}" method="post">
+                            <input type="hidden" name="tituloAnterior" th:if="${editando}" th:value="${tituloOriginal}">
+
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título de la nota</label>
+                                <input type="text" class="form-control form-control-lg" id="titulo" name="titulo"
+                                       placeholder="Mi gran idea..." th:value="${tituloOriginal}" required>
+                                <div class="form-text">El nombre se guardará como un archivo .md</div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="Md" class="form-label">Contenido (Markdown)</label>
+                                <textarea class="form-control editor-textarea" id="Md" name="Md"
+                                          placeholder="# Escribe aquí..." th:text="${textoOriginal}" required></textarea>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="/" class="btn btn-secondary me-md-2">Cancelar</a>
+                                <button type="submit" class="btn btn-primary px-5">
+                                    <i class="bi bi-save"></i> Guardar Nota
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

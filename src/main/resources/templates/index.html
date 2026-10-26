@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Notas Markdown</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .note-card { transition: transform 0.2s; }
+        .note-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-primary mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-journal-text"></i> Notas MD
+            </a>
+            <a href="/form" class="btn btn-light">
+                <i class="bi bi-plus-lg"></i> Nueva Nota
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">Mis Notas</h2>
+            </div>
+
+            <div th:if="${#lists.isEmpty(notas)}" class="col-12 text-center py-5">
+                <div class="text-muted">
+                    <i class="bi bi-emoji-neutral" style="font-size: 3rem;"></i>
+                    <p class="mt-2">Aún no tienes notas. ¡Crea la primera!</p>
+                </div>
+            </div>
+
+            <div th:each="nota : ${notas}" class="col-md-4 mb-3">
+                <div class="card h-100 note-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate" th:text="${nota}"></h5>
+                        <p class="card-text text-muted small">Archivo: <span th:text="${nota}"></span></p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+                        <a th:href="@{/nota/ver(archivo=${nota})}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                        <div class="btn-group">
+                            <a th:href="@{/form(archivo=${nota})}" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form th:action="@{/nota/eliminar}" method="post" style="display: inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta nota?')">
+                                <input type="hidden" name="archivo" th:value="${nota}">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
