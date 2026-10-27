@@ -30,3 +30,6 @@ mvnw.cmd spring-boot:run
 
 3. Abrir en el navegador:
    Ingresar a `http://localhost:8080` para usar la aplicacion.
+
+
+Este proyecto es una solucion a: https://roadmap.sh/projects/markdown-note-taking-app
